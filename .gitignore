@@ -1,2 +1,4 @@
 /.idea
 GL02_ERUDITS.iml
+/node_modules
+/package-lock.json
