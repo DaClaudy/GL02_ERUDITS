@@ -31,14 +31,16 @@ if (user.isConnected() && user.hasPermission()){
         })
         .command('test', "Test votre jeu de données au format CRU")
         .argument('<directoryName>', "Nom du dossier à tester")
-        .action(({ logger, args }) => {
+        .action(({args }) => {
             let parser = new CruParser();
             parser.parseDirectory(args.directoryName)
-            logger.info("--------------------------CLASSROOMS : -----------------------------");
-            logger.info(JSON.stringify(Array.from(parser.classrooms).sort(), null, 2));
-            logger.info("----------------------------- UES : --------------------------------");
-            logger.info(JSON.stringify(parser.ues.map(value => value.name), null, 2));
+            //logger.info("--------------------------CLASSROOMS : -----------------------------");
+            //logger.info(JSON.stringify(Array.from(parser.classrooms).sort(), null, 2));
+            //logger.info("----------------------------- UES : --------------------------------");
+            //logger.info(JSON.stringify(parser.ues.map(value => value.name), null, 2));
             //logger.info(JSON.stringify(parser.schedule.ues, null, 2));
+            //logger.info(JSON.stringify(parser.schedule.getSchedule(), null, 2))
+            parser.schedule.createVisualisation()
         })
 
 

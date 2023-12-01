@@ -6,7 +6,8 @@ const Course = function() {
     this.day = Day.L;
     this.start = 0;
     this.end = 0;
-    this.group = 'F1';
+    this.group = "";
+    this.name = "";
 }
 
 export const Day = {

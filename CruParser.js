@@ -9,8 +9,6 @@ const CruParser = function () {
     this.ueSymb = ['+', 'UVUV'];
     this.errorCount = 0;
     this.schedule = new Schedule();
-    this.classrooms = new Set;
-    this.ues = [];
     this.files = [];
 }
 
@@ -197,7 +195,7 @@ CruParser.prototype.parseCourse = function (input) {
         inputCourse = this.next(data);
         if (this.checkFormat(inputCourse,/^[A-Z]{1,4}[0-9]{0,3}$/, "Error of classroom of course")){
             course.classrooms = inputCourse;
-            this.classrooms.add(inputCourse)
+            this.schedule.classrooms.add(inputCourse)
             this.next(data);
         } else {
             this.errMsg("No classroom found for course", input)
@@ -218,6 +216,7 @@ CruParser.prototype.parseUE = function (data, input) {
     while(inputUE && inputUE[0] !== '+'){
         let course = this.parseCourse(inputUE);
         if (course instanceof Course){
+            course.name = ue.name;
             ue.addCourse(course);
         } else {
             this.errMsg("Error in parsing course", inputUE)
@@ -226,7 +225,6 @@ CruParser.prototype.parseUE = function (data, input) {
         inputUE = this.next(data);
     }
     this.schedule.addUE(ue);
-    this.ues.push(ue);
     return inputUE;
 }
 
@@ -242,30 +240,4 @@ CruParser.prototype.next = function(input){
 }
 
 export default CruParser;
-
-/*
-Fichier EDT = Titre CRLF Commentaire CRLF EDTlist CRLF Reponse
-Titre = ‘EDT.CRU – Test’
-Commentaire = Vérification CRLF Attentes
-Vérification = 1*(ALPHA /WSP) ‘:’
-Attentes = Enoncé CRLF Exemple
-Enoncé = 1*(VCHAR/WSP)
-Exemple = 2(‘Séance’ 1DIGIT ‘ : ’ ‘salle 1DIGIT ‘et’ 1DIGIT) CRLF ‘on doit avoir’
-WSP ‘ : ’ CRLF ‘+UVUV ’ CRLF Format
-Format = 2(2(‘Séance’ WSP 1DIGIT WSP ‘S=’ 1DIGIT WSP ‘/’) CRLF)
-EdtList =1* Emploi du temps
-Emploi du temps = ‘+’ Nom du cours CRLF 1*(Créneau d’enseignement)
-Créneau d’enseignement = Type’,’ Capacitaire créneau,’ 1*2( ‘ /’ Horaire ‘,’Index de
-sous-groupe ‘,’ Salle) ‘//’
-Nom du cours = 7ALPHA /2*5ALPHA 0*2DIGIT 0*1 ALPHA 0*1 DIGIT
-Type = ‘1,’ Type du cours
-Type du cours = ‘C1’/ ‘D’ Numéro / ‘T’ Numéro
-Numéro= ‘1’/ ‘2’/ ‘3’/ ‘4’
-capacitaire créneau= ‘P=’ 2DIGIT
-Horaire = ‘H=’ 1*2DIGIT WSP Timecode
-Timecode = 1*2DIGIT ‘ :’ 2DIGIT ‘-‘ 2DIGIT ‘ :’ 2DIGIT
-Index de sous-groupe = ‘F’(‘1’/’2’)
-Salle = ‘S=’ (1ALPHA 3DIGIT / 3ALPHA 1DIGIT)
-Réponse = ‘Réponse générée en :’ WPS 1DIGIT ‘.’ 1*DIGIT WSP ‘sec’
- */
 
