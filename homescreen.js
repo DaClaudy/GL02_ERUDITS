@@ -16,7 +16,8 @@ if (user.isConnected() && user.hasPermission()){
             logger.info("ORUS - OrgaRoomUniSealand");
             logger.info("Bonjour, que voulez vous faire aujourd'hui ?\n" +
                 "1) Voir votre emploi du temps\n" +
-                "2) Voir la liste des salles\n")
+                "2) Voir la liste des salles\n" + 
+                "3) Récupérer pour un cours les salles")
             inquirer
                 .prompt([{name: "action", type: "number", message: "Entrez le chiffre de l'action choisie : "}])
                 .then((answers) => {
