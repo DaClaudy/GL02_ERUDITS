@@ -82,24 +82,24 @@ function switchActions(logger, answers) {
 }
 
 function searchFreeClassroom(logger) {
-    const format = /[0-2][0-9]h[0-6][0-9]/
+    const format = /[0-9][0-9]:[0-9][0-9]/
     inquirer
         .prompt([
-            {message: "Entrez l'heure de début : ", type:"string", name: "start"},
-            {message: "Entrez l'heure de fin : ", type:"string", name: "end"},
+            {message: "Entrez l'heure de début : (format : hh:mm)", type:"string", name: "start"},
+            {message: "Entrez l'heure de fin : (format : hh:mm)", type:"string", name: "end"},
         ])
         .then((answers) => {
             let dates = [];
             for (let date in answers) {
-                if (format.test(date)){
-
+                if (format.test(answers[date])){
+                    let parseDate = answers[date].split(':').map(v => Number(v));
+                    dates.push((new Date()).setHours(...parseDate));
                 } else {
                     logger.warn("Erreur de format pour le créneau, veuillez relancer l'application");
                     process.exit(200);
                 }
             }
-
-
+            logger.info("Les salles libres sont : " + cruParser.schedule.getFreeClassroomsByTimes(dates).join(', ') + " pour ce créneau")
         })
 }
 

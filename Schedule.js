@@ -64,11 +64,11 @@ Schedule.prototype.getScheduleByClassroomAndTimes = function(classroom, times){
 Schedule.prototype.getFreeClassroomsByTimes = function (times) {
     let freeClassroom = [];
     for (let classroom of this.classrooms){
-        if (this.getScheduleByClassroomAndTimes(classroom, times).length > 0 ){
+        if (this.getScheduleByClassroomAndTimes(classroom, times).length === 0 ){
             freeClassroom.push(classroom);
         }
     }
-    return freeClassroom
+    return freeClassroom.sort()
 }
 
 
