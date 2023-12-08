@@ -48,9 +48,17 @@ Schedule.prototype.getSchedule = function (ues = []) {
 }
 
 
-Schedule.prototype.createVisualisation = function () {
+Schedule.prototype.createVisualisation = function(ues = []) {
     let icalendar = new ICalendarBuilder();
-    icalendar.buildCalendarFromSchedule(this.getSchedule());
+    icalendar.buildCalendarFromSchedule(this.getSchedule(ues));
+}
+
+Schedule.prototype.displayConsole = function(logger, ues = []){
+    let schedule = this.getSchedule(ues);
+    for (let day in schedule){
+        logger.info(Day[day] + ' : ');
+
+    }
 }
 
 export default Schedule;

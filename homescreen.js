@@ -71,7 +71,7 @@ function switchActions(logger, answers) {
     }
     switch (answers.action) {
         case 1:
-            visualiseSchedule();
+            visualiseSchedule(logger);
             break;
         case 2:
             break;
@@ -79,7 +79,8 @@ function switchActions(logger, answers) {
 }
 
 
-function visualiseSchedule() {
+function visualiseSchedule(logger) {
+    const type = [1, 2]
     inquirer
         .prompt([
             {message: "Entrez vos matières séparer par une virgule : ", type: "string", name: "courses"},
@@ -87,7 +88,19 @@ function visualiseSchedule() {
         ], () => {})
         .then((answers) => {
             let tokenUes = answers.courses.split(/ , |, | ,|,/);
-            let schedule = cruParser.schedule.getSchedule(tokenUes);
+            if (type.includes(answers.type)){
+                switch (answers.type) {
+                    case 1:
+                        cruParser.schedule.displayConsole(logger, tokenUes)
+                        break;
+                    case 2:
+                        cruParser.schedule.createVisualisation(tokenUes);
+                        logger.info("Un fichier .ics a été créé à la racine de l'application contenant votre emploi du temps.")
+                        break;
+                }
+
+
+            }
         })
 
 }
