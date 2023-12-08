@@ -17,6 +17,10 @@ function checkNoUpdate() {
 
 if (user.isConnected() && user.hasPermission()){
     program
+        .version('1.0.0')
+        .help("1) Changer le contenu du dossier SujetA_Data, par votre propre jeu de données" +
+            "2) Lancer la commande npm ./homescreen start " +
+            "3) Choisissez les actions que vous voulez exécuter")
         .command('start', 'Start the programme')
         .action(startProgram)
         .command('test', "Test votre jeu de données au format CRU")
