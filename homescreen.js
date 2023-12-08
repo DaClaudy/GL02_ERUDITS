@@ -53,12 +53,12 @@ function startProgram({logger}) {
 
 
 function parseDataDir(dir) {
-    if (checkParseDir(dir)){
+   /* if (checkParseDir(dir)){
         cruParser = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
-    } else {
+    } else {*/
         cruParser.parseDirectory(dir);
         fs.writeFileSync(dir+'/data.json', JSON.stringify(cruParser, null, 2));
-    }
+    //}
 }
 
 function checkParseDir(dir){
@@ -81,10 +81,13 @@ function switchActions(logger, answers) {
 
 function visualiseSchedule() {
     inquirer
-        .prompt({message: "Entrez vos matières séparer par une virgule : ", type: "string", name: "courses"}, () => {})
+        .prompt([
+            {message: "Entrez vos matières séparer par une virgule : ", type: "string", name: "courses"},
+            {message: "Voir les informations en brute ou en format ics ? (1 ou 2) : ", type: "number", name: "type"}
+        ], () => {})
         .then((answers) => {
             let tokenUes = answers.courses.split(/ , |, | ,|,/);
-
+            let schedule = cruParser.schedule.getSchedule(tokenUes);
         })
 
 }
