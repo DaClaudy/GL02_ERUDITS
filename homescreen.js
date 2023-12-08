@@ -10,6 +10,7 @@ import fs from "fs";
 let user = new User("bubulle");
 const NB_OPTIONS = [1, 2];
 let schedule = new CruParser();
+const DATA_DIR_NAME = 'SujetA_data';
 
 function checkNoUpdate() {
     return false;
@@ -18,7 +19,7 @@ function checkNoUpdate() {
 if (user.isConnected() && user.hasPermission()){
     program
         .version('1.0.0')
-        .help("1) Changer le contenu du dossier SujetA_Data, par votre propre jeu de données" +
+        .help("1) Changer le contenu du dossier SujetA_data, par votre propre jeu de données" +
             "2) Lancer la commande npm ./homescreen start " +
             "3) Choisissez les actions que vous voulez exécuter")
         .command('start', 'Start the programme')
@@ -45,7 +46,7 @@ if (user.isConnected() && user.hasPermission()){
 }
 
 function startProgram({logger}) {
-    parseDataDir('SujetA_Data');
+    parseDataDir(DATA_DIR_NAME);
     logger.info("ORUS - OrgaRoomUniSealand");
     logger.info("Bonjour, que voulez vous faire aujourd'hui ?\n" +
         "1) Voir votre emploi du temps\n" +
@@ -61,10 +62,10 @@ function startProgram({logger}) {
 
 function parseDataDir(dir) {
     if (checkParseDir(dir)){
-        schedule.parseDirectory(dir);
-        fs.writeFileSync(dir+'/data.json', JSON.stringify(cruParser, null, 2));
-    } else {
         schedule = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
+    } else {
+        schedule.parseDirectory(dir);
+        fs.writeFileSync(dir+'/data.json', JSON.stringify(schedule, null, 2));
     }
 }
 
