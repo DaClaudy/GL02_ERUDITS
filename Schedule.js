@@ -26,22 +26,27 @@ Schedule.prototype.export = function() {
     unparser.unparse(this);
 }
 
-Schedule.prototype.getScheduleByDay = function (day) {
+Schedule.prototype.getScheduleByDay = function (day, ues = []) {
     return this.ues
         .map(value => value.courses)
         .reduce((previousValue, currentValue) => {
             return previousValue.concat(currentValue)
         }, [])
-        .filter(value => value.day === Day[day]);
+        .filter(value => ues.length > 0? (value.day === Day[day] && ues.includes(value.name)) : (value.day === Day[day]));
 }
 
-Schedule.prototype.getSchedule = function () {
+Schedule.prototype.getSchedule = function (ues = []) {
     let scheduleWeek = {};
     for (const key of Object.keys(Day)) {
-        scheduleWeek[key] = this.getScheduleByDay(key)
+        if (ues.length > 0){
+            scheduleWeek[key] = this.getScheduleByDay(key, ues)
+        } else {
+            scheduleWeek[key] = this.getScheduleByDay(key)
+        }
     }
     return scheduleWeek;
 }
+
 
 Schedule.prototype.createVisualisation = function () {
     let icalendar = new ICalendarBuilder();
