@@ -50,7 +50,12 @@ Schedule.prototype.getSchedule = function (ues = []) {
 
 
 Schedule.prototype.getScheduleByClassroomAndTimes = function(classroom, times, day){
-    return courses.filter(value => value.classrooms === classroom && value.day === Day[day] &&
+    return this.ues
+        .map(value => value.courses)
+        .reduce((previousValue, currentValue) => {
+            return previousValue.concat(currentValue)
+        }, [])
+        .filter(value => value.classrooms === classroom && value.day === Day[day] &&
             ((times[0] >= value.start && times[0] <= value.end) ||
                 (times[1] >= value.start && times[1] <= value.end))
         );
