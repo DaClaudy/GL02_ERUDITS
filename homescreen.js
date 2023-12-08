@@ -6,7 +6,6 @@ const { program } = pkg;
 import inquirer from "inquirer";
 import CruParser from "./CruParser.js";
 import fs from "fs";
-import Schedule from "./Schedule.js";
 
 let user = new User("bubulle");
 const NB_OPTIONS = [1, 2];
@@ -41,7 +40,7 @@ if (user.isConnected() && user.hasPermission()){
 }
 
 function startProgram({logger}) {
-    parseData('SujetA_Data');
+    let schedule = parseDataDir('SujetA_Data');
     logger.info("ORUS - OrgaRoomUniSealand");
     logger.info("Bonjour, que voulez vous faire aujourd'hui ?\n" +
         "1) Voir votre emploi du temps\n" +
@@ -55,10 +54,20 @@ function startProgram({logger}) {
 }
 
 
-function parseData(dir) {
+function parseDataDir(dir) {
     let cruParser = new CruParser();
-    cruParser.parseDirectory();
+    if (checkParseDir(dir)){
+        cruParser.parseDirectory(dir);
+        fs.writeFileSync(dir+'/data.json', JSON.stringify(cruParser, null, 2));
+    } else {
+        cruParser = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
+    }
+
     return cruParser;
+}
+
+function checkParseDir(dir){
+    return fs.existsSync(dir+'/data.json');
 }
 
 function switchActions(logger, answers) {
