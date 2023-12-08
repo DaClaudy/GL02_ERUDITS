@@ -49,6 +49,23 @@ Schedule.prototype.getSchedule = function (ues = []) {
 }
 
 
+Schedule.prototype.getScheduleByClassroomAndTimes = function(classroom, times){
+    return this.ues
+        .map(value => value.courses)
+        .reduce((previousValue, currentValue) => {
+            return previousValue.concat(currentValue)
+        }, [])
+        .filter(value => value.classrooms === classroom &&
+            ((times[0] >= value.start && times[0] >= value.end) ||
+                (times[1] >= value.start && times[1] >= value.end))
+        );
+}
+
+Schedule.prototype.getFreeClassroomByTimes = function (classroom, times) {
+
+}
+
+
 Schedule.prototype.createVisualisation = function(ues = []) {
     let icalendar = new ICalendarBuilder();
     icalendar.buildCalendarFromSchedule(this.getSchedule(ues));
