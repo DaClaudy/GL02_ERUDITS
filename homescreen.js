@@ -9,6 +9,7 @@ import fs from "fs";
 
 let user = new User("bubulle");
 const NB_OPTIONS = [1, 2];
+let schedule = new CruParser();
 
 function checkNoUpdate() {
     return false;
@@ -40,7 +41,7 @@ if (user.isConnected() && user.hasPermission()){
 }
 
 function startProgram({logger}) {
-    let schedule = parseDataDir('SujetA_Data');
+    parseDataDir('SujetA_Data');
     logger.info("ORUS - OrgaRoomUniSealand");
     logger.info("Bonjour, que voulez vous faire aujourd'hui ?\n" +
         "1) Voir votre emploi du temps\n" +
@@ -55,15 +56,12 @@ function startProgram({logger}) {
 
 
 function parseDataDir(dir) {
-    let cruParser = new CruParser();
     if (checkParseDir(dir)){
-        cruParser.parseDirectory(dir);
+        schedule.parseDirectory(dir);
         fs.writeFileSync(dir+'/data.json', JSON.stringify(cruParser, null, 2));
     } else {
-        cruParser = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
+        schedule = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
     }
-
-    return cruParser;
 }
 
 function checkParseDir(dir){
