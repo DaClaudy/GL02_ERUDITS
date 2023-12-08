@@ -42,7 +42,7 @@ if (user.isConnected() && user.hasPermission()){
         })
 
 
-    program.run().then(process.exit(200));
+    program.run();
 }
 
 function startProgram({logger}) {
