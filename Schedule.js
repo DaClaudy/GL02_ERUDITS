@@ -32,7 +32,8 @@ Schedule.prototype.getScheduleByDay = function (day, ues = []) {
         .reduce((previousValue, currentValue) => {
             return previousValue.concat(currentValue)
         }, [])
-        .filter(value => ues.length > 0? (value.day === Day[day] && ues.includes(value.name)) : (value.day === Day[day]));
+        .filter(value => ues.length > 0? (value.day === Day[day] && ues.includes(value.name)) : (value.day === Day[day]))
+        .sort((a,b) => a.start - b.start);
 }
 
 Schedule.prototype.getSchedule = function (ues = []) {
@@ -48,9 +49,30 @@ Schedule.prototype.getSchedule = function (ues = []) {
 }
 
 
-Schedule.prototype.createVisualisation = function () {
+Schedule.prototype.createVisualisation = function(ues = []) {
     let icalendar = new ICalendarBuilder();
-    icalendar.buildCalendarFromSchedule(this.getSchedule());
+    icalendar.buildCalendarFromSchedule(this.getSchedule(ues));
+}
+
+Schedule.prototype.displayConsole = function(logger, ues = []) {
+    let schedule = this.getSchedule(ues);
+    for (let day in schedule) {
+        if (schedule[day].length > 0) {
+            logger.info(Day[day] + ' : ');
+            for (let course of schedule[day]) {
+                logger.info("De " + this.getFormatDate(course.start) + " à " + this.getFormatDate(course.end) + " : " +
+                    course.name + " | " + course.type + " | " + course.group + " en " + course.classrooms );
+            }
+        } else {
+            logger.info("Aucun cours le " + Day[day]);
+        }
+
+    }
+}
+
+Schedule.prototype.getFormatDate = function (ts) {
+    const date = new Date(ts);
+    return date.getHours().toString().padStart(2, '0') + "h" +  date.getMinutes().toString().padStart(2, '0');
 }
 
 export default Schedule;
