@@ -6,6 +6,7 @@ const { program } = pkg;
 import inquirer from "inquirer";
 import CruParser from "./CruParser.js";
 import fs from "fs";
+import Schedule from "./Schedule.js";
 
 let user = new User("bubulle");
 const NB_OPTIONS = [1, 2];
@@ -40,6 +41,7 @@ if (user.isConnected() && user.hasPermission()){
 }
 
 function startProgram({logger}) {
+    parseData('SujetA_Data');
     logger.info("ORUS - OrgaRoomUniSealand");
     logger.info("Bonjour, que voulez vous faire aujourd'hui ?\n" +
         "1) Voir votre emploi du temps\n" +
@@ -50,6 +52,13 @@ function startProgram({logger}) {
         .catch((error) => {
             logger.error(error.message)
         });
+}
+
+
+function parseData(dir) {
+    let cruParser = new CruParser();
+    cruParser.parseDirectory();
+    return cruParser;
 }
 
 function switchActions(logger, answers) {
@@ -72,7 +81,6 @@ function visualiseSchedule() {
         .then((answers) => {
             let tokenUes = answers.courses.split(/ , |, | ,|,|/);
             console.log(tokenUes);
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
         })
 
 }
