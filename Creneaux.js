@@ -8,3 +8,5 @@ class Creneaux {
         this.salle = salle;
     }
 }
+
+module.exports = Creneaux;
