@@ -49,26 +49,33 @@ Schedule.prototype.getSchedule = function (ues = []) {
 }
 
 
-Schedule.prototype.getScheduleByClassroomAndTimes = function(classroom, times){
-    return this.ues
-        .map(value => value.courses)
-        .reduce((previousValue, currentValue) => {
-            return previousValue.concat(currentValue)
-        }, [])
-        .filter(value => value.classrooms === classroom &&
+Schedule.prototype.getScheduleByClassroomAndTimes = function(classroom, times, day){
+    return courses.filter(value => value.classrooms === classroom && value.day === Day[day] &&
             ((times[0] >= value.start && times[0] <= value.end) ||
                 (times[1] >= value.start && times[1] <= value.end))
         );
 }
 
 Schedule.prototype.getFreeClassroomsByTimes = function (times) {
-    let freeClassroom = [];
-    for (let classroom of this.classrooms){
-        if (this.getScheduleByClassroomAndTimes(classroom, times).length === 0 ){
-            freeClassroom.push(classroom);
+    let freeClassroomPerDay = {};
+    for (let day in this.getSchedule()){
+        let freeClassroom = [];
+        for (let classroom of this.classrooms){
+            if (this.getScheduleByClassroomAndTimes(classroom, times, day).length === 0 ){
+                freeClassroom.push(classroom);
+            }
         }
+        freeClassroom.sort()
+        freeClassroomPerDay[day] = freeClassroom;
     }
-    return freeClassroom.sort()
+    return freeClassroomPerDay;
+}
+
+Schedule.prototype.displayConsoleFreeClassroom = function (logger, times) {
+    let schedule = this.getFreeClassroomsByTimes(times)
+    for (let day in schedule){
+
+    }
 }
 
 

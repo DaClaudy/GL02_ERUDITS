@@ -99,7 +99,7 @@ function searchFreeClassroom(logger) {
                     process.exit(200);
                 }
             }
-            logger.info("Les salles libres sont : " + cruParser.schedule.getFreeClassroomsByTimes(dates).join(', ') + " pour ce créneau")
+            cruParser.schedule.displayConsoleFreeClassroom(logger, dates);
         })
 }
 
