@@ -56,13 +56,19 @@ Schedule.prototype.getScheduleByClassroomAndTimes = function(classroom, times){
             return previousValue.concat(currentValue)
         }, [])
         .filter(value => value.classrooms === classroom &&
-            ((times[0] >= value.start && times[0] >= value.end) ||
-                (times[1] >= value.start && times[1] >= value.end))
+            ((times[0] >= value.start && times[0] <= value.end) ||
+                (times[1] >= value.start && times[1] <= value.end))
         );
 }
 
-Schedule.prototype.getFreeClassroomByTimes = function (classroom, times) {
-
+Schedule.prototype.getFreeClassroomsByTimes = function (times) {
+    let freeClassroom = [];
+    for (let classroom of this.classrooms){
+        if (this.getScheduleByClassroomAndTimes(classroom, times).length > 0 ){
+            freeClassroom.push(classroom);
+        }
+    }
+    return freeClassroom
 }
 
 
