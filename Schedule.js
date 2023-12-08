@@ -74,7 +74,8 @@ Schedule.prototype.getFreeClassroomsByTimes = function (times) {
 Schedule.prototype.displayConsoleFreeClassroom = function (logger, times) {
     let schedule = this.getFreeClassroomsByTimes(times)
     for (let day in schedule){
-
+        logger.info(Day[day] + " : ");
+        logger.info("Les salles libres sont : "+ schedule[day] +" pour ce créneau")
     }
 }
 
