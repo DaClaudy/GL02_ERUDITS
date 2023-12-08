@@ -9,12 +9,8 @@ import fs from "fs";
 
 let user = new User("bubulle");
 const NB_OPTIONS = [1, 2];
-let schedule = new CruParser();
+let cruParser = new CruParser();
 const DATA_DIR_NAME = 'SujetA_data';
-
-function checkNoUpdate() {
-    return false;
-}
 
 if (user.isConnected() && user.hasPermission()){
     program
@@ -27,18 +23,14 @@ if (user.isConnected() && user.hasPermission()){
         .command('test', "Test votre jeu de données au format CRU")
         .argument('<directoryName>', "Nom du dossier à tester")
         .action(({args }) => {
-            let parser = new CruParser();
-            if (fs.existsSync('schedule.json') && fs.existsSync('syncDate') && checkNoUpdate()){
-
-            }
-            parser.parseDirectory(args.directoryName)
+            parseDataDir(args.directoryName);
             //logger.info("--------------------------CLASSROOMS : -----------------------------");
             //logger.info(JSON.stringify(Array.from(parser.classrooms).sort(), null, 2));
             //logger.info("----------------------------- UES : --------------------------------");
             //logger.info(JSON.stringify(parser.ues.map(value => value.name), null, 2));
             //logger.info(JSON.stringify(parser.schedule.ues, null, 2));
             //logger.info(JSON.stringify(parser.schedule.getSchedule(), null, 2))
-            parser.schedule.createVisualisation()
+            cruParser.schedule.createVisualisation()
         })
 
 
@@ -62,10 +54,10 @@ function startProgram({logger}) {
 
 function parseDataDir(dir) {
     if (checkParseDir(dir)){
-        schedule = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
+        cruParser = JSON.parse(fs.readFileSync(dir+'/data.json', 'utf8'));
     } else {
-        schedule.parseDirectory(dir);
-        fs.writeFileSync(dir+'/data.json', JSON.stringify(schedule, null, 2));
+        cruParser.parseDirectory(dir);
+        fs.writeFileSync(dir+'/data.json', JSON.stringify(cruParser, null, 2));
     }
 }
 
@@ -91,8 +83,8 @@ function visualiseSchedule() {
     inquirer
         .prompt({message: "Entrez vos matières séparer par une virgule : ", type: "string", name: "courses"}, () => {})
         .then((answers) => {
-            let tokenUes = answers.courses.split(/ , |, | ,|,|/);
-            console.log(tokenUes);
+            let tokenUes = answers.courses.split(/ , |, | ,|,/);
+
         })
 
 }
