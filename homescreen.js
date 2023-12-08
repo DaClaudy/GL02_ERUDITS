@@ -88,6 +88,19 @@ function searchFreeClassroom(logger) {
             {message: "Entrez l'heure de début : ", type:"string", name: "start"},
             {message: "Entrez l'heure de fin : ", type:"string", name: "end"},
         ])
+        .then((answers) => {
+            let dates = [];
+            for (let date in answers) {
+                if (format.test(date)){
+
+                } else {
+                    logger.warn("Erreur de format pour le créneau, veuillez relancer l'application");
+                    process.exit(200);
+                }
+            }
+
+
+        })
 }
 
 function visualiseSchedule(logger) {
