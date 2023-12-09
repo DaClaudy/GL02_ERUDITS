@@ -30,7 +30,7 @@ ICalendarBuilder.prototype.generateLocation = function (location) {
 
 ICalendarBuilder.prototype.generateFrequency = function (day, end = false) {
     let result = this.ruleEvent + "BYDAY=" + ICalendarDay[day];
-    return  end !== false ? result  + "\r\n" : result + ";UNTIL="+ end.replace("-", '') + "T000000\r\n";
+    return  end !== false ? result  + "\r\n" : result + ";UNTIL="+ end.replaceAll("-", '') + "T000000\r\n";
 }
 
 ICalendarBuilder.prototype.generateUID = function () {
@@ -99,7 +99,7 @@ ICalendarBuilder.prototype.generateEventFromCourse = function (day, data, start 
     result += this.generateBusy("TRANSPARENT");
     result += this.generateFrequency(day, end);
     if (start !== false){
-        result += this.generateDTStamp(start.replace('-', '') + "T000000")
+        result += this.generateDTStamp(start.replaceAll('-', '') + "T000000")
     } else {
         result += this.generateDTStamp(this.generateDateFormat(new Date(Date.now())))
     }
@@ -151,5 +151,4 @@ URL:http://americanhistorycalendar.com/peoplecalendar/1,328-abraham-lincol
 END:VEVENT
 END:VCALENDAR
  */
-
  

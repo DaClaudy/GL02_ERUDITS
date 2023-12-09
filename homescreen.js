@@ -102,8 +102,9 @@ function generateICalendar(logger) {
                 type:"string", name: "end"},
         ])
         .then((answers) => {
-            if ((new Date(answers.start)) && (new Date(answers.end)) ){
+            if (!isNaN(new Date(answers.start))  && !isNaN(new Date(answers.end))){
                 cruParser.schedule.createVisualisation([], answers.start, answers.end);
+                logger.info("Un fichier calendar.ics a été créé à la racine de l'application contenant l'emploi du temps complet des salles")
             } else {
                 logger.error("Vous n'avez pas rentré le bon format de données (yyyy-mm-dd)")
             }
