@@ -90,7 +90,7 @@ function switchActions(logger, answers) {
 }
 
 function sortClassroomByHeadcount(logger) {
-    logger.info("Voici les classes classer par nombre d'effectif : ");
+    logger.info("Voici les salles classer par nombre d'effectif : ");
     let classrooms = cruParser.schedule.sortClassroomByHeadcount();
     for (let classroom of classrooms){
         logger.info(classroom[0] + " : " + classroom[1]);
