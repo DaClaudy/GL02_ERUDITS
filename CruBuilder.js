@@ -6,17 +6,18 @@ const CruBuilder = function() {
 }
 
 CruBuilder.prototype.build = function (cruParser, ues) {
-    let time = Date.now();
+    let time = performance.now();
     let result = "SCHEDULE.CRU - Emploi du temps\r\n";
     result += "Emploi du temps avec différentes salles au format cru\r\n"
     result += "+UVUV\r\n";
-    result += cruParser.schedule.exemple;
-    let schedule = cruParser.schedule.ues.filter(v => ues.includes(this.name))
+    result += "Seance 1 S=1 / Seance 2 S=3\r\n" +
+        "Seance 1 S=2 / Seance2 S=4\r\n";
+    let schedule = cruParser.schedule.ues.filter(v => ues.includes(v.name))
     for (let ue of schedule) {
         result += this.ue(ue);
     }
-    time = (new Date(time.getTime())) - (new Date(Date.now())).getTime();
-    result += "Page générée en :" + time +" sec";
+    time = performance.now() - time;
+    result += "Page générée en : " + time +" sec";
     fs.writeFileSync('schedule.cru', result);
     return true;
 }
@@ -37,7 +38,7 @@ CruBuilder.prototype.course = function (course){
     result += this.getFormatDate(course.start) + "-"
     result += this.getFormatDate(course.end) + ",";
     result += course.group + ",";
-    result += "S=" + course.classrooms + ",";
+    result += "S=" + course.classrooms;
     return result + "//\r\n";
 }
 
