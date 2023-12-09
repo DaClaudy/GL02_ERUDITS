@@ -25,3 +25,12 @@ Projet GL02
 
 6. Plusieurs objets s'affiche à l'écran, sauf si vos données contiennent des erreurs,
 dans ce cas, des messages d'erreur vous montre où se trouve le problème dans votre fichier.
+7. Pour lancer l'outils pour utiliser un jeu de données en mode intéractif il faut exécuter la commande :
+
+
+    $> npm start
+    $> node ./homescreen start //fonctionne aussi 
+    
+
+
+
