@@ -96,13 +96,18 @@ function switchActions(logger, answers) {
 function generateICalendar(logger) {
     inquirer
         .prompt([
-            {message: "Entrez une date de début (format: yyyymmdd)",
+            {message: "Entrez une date de début (format: yyyy-mm-dd)",
                 type:"string", name: "start"},
-            {message: "Entrez une date de fin (format: yyyymmdd)",
+            {message: "Entrez une date de fin (format: yyyy-mm-dd)",
                 type:"string", name: "end"},
         ])
         .then((answers) => {
-            cruParser.schedule.createVisualisation([], answers.start, answers.end);
+            if ((new Date(answers.start)) && (new Date(answers.end)) ){
+                cruParser.schedule.createVisualisation([], answers.start, answers.end);
+            } else {
+                logger.error("Vous n'avez pas rentré le bon format de données (yyyy-mm-dd)")
+            }
+
         })
 }
 

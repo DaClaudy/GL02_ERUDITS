@@ -48,8 +48,13 @@ ICalendarBuilder.prototype.generateBusy = function (busy) {
     return "TRANSP:" + busy + "\r\n";
 }
 
-ICalendarBuilder.prototype.generateDateFromCourse = function (day, timestamp) {
-    let date = new Date(Date.now());
+ICalendarBuilder.prototype.generateDateFromCourse = function (day, timestamp, inputDate = false) {
+    let date;
+    if (inputDate !== false) {
+        date = new Date(inputDate)
+    } else {
+        date = new Date(Date.now());
+    }
     let time = new Date(timestamp)
     date.setHours(time.getHours());
     date.setMinutes(time.getMinutes())
@@ -84,7 +89,7 @@ ICalendarBuilder.prototype.generateDTStamp = function (date) {
     return "DTSTAMP:" + date + "\r\n";
 }
 
-ICalendarBuilder.prototype.generateEventFromCourse = function (day, data) {
+ICalendarBuilder.prototype.generateEventFromCourse = function (day, data, start = false, end = false) {
     let result = '';
     result += this.headerEvent;
     result += this.generateSummary(data.name + " - " + data.type);
@@ -92,21 +97,26 @@ ICalendarBuilder.prototype.generateEventFromCourse = function (day, data) {
     result += this.generateStatus("CONFIRMED");
     result += this.generateBusy("TRANSPARENT");
     result += this.generateFrequency(day);
-    result += this.generateDTStamp(this.generateDateFormat(new Date(Date.now())))
-    result += this.generateDTStart(this.generateDateFromCourse(day, data.start));
-    result += this.generateDTEnd(this.generateDateFromCourse(day, data.end));
+    if (start !== false){
+        result += this.generateDTStamp(start.replace('-', '') + "T000000")
+    } else {
+        result += this.generateDTStamp(this.generateDateFormat(new Date(Date.now())))
+    }
+
+    result += this.generateDTStart(this.generateDateFromCourse(day, data.start, start));
+    result += this.generateDTEnd(this.generateDateFromCourse(day, data.end, end));
     result += this.generateLocation(data.classrooms);
     result += this.footerEvent;
     return result;
 }
 
-ICalendarBuilder.prototype.buildCalendarFromSchedule = function (data) {
+ICalendarBuilder.prototype.buildCalendarFromSchedule = function (data, start = false, end = false) {
     let icsData = '';
     icsData += this.header;
     for (const day in data) {
         //Object.keys(ICalendarDay);
         for (const course of data[day]) {
-            icsData += this.generateEventFromCourse(day, course);
+            icsData += this.generateEventFromCourse(day, course, start, end);
         }
     }
     icsData += this.footer;

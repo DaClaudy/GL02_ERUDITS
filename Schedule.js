@@ -85,9 +85,9 @@ Schedule.prototype.displayConsoleFreeClassroom = function (logger, times) {
 }
 
 
-Schedule.prototype.createVisualisation = function(ues = []) {
+Schedule.prototype.createVisualisation = function(ues = [], start = false, end = false) {
     let icalendar = new ICalendarBuilder();
-    icalendar.buildCalendarFromSchedule(this.getSchedule(ues));
+    icalendar.buildCalendarFromSchedule(this.getSchedule(ues), start, end);
 }
 
 Schedule.prototype.displayConsole = function(logger, ues = []) {
