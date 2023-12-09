@@ -30,7 +30,7 @@ ICalendarBuilder.prototype.generateLocation = function (location) {
 
 ICalendarBuilder.prototype.generateFrequency = function (day, end = false) {
     let result = this.ruleEvent + "BYDAY=" + ICalendarDay[day];
-    return  end !== false ? result  + "\r\n" : result + ";UNTIL="+ end.replaceAll("-", '') + "T000000\r\n";
+    return  end !== false ? result + ";UNTIL="+ end.replaceAll("-", '') + "T000000\r\n" : result  + "\r\n";
 }
 
 ICalendarBuilder.prototype.generateUID = function () {
