@@ -6,6 +6,7 @@ const { program } = pkg;
 import inquirer from "inquirer";
 import CruParser from "./CruParser.js";
 import fs from "fs";
+import CruBuilder from "./CruBuilder.js";
 
 let user = new User("bubulle");
 const NB_OPTIONS = [1, 2, 4, 5, 6, 7, 8];
@@ -104,6 +105,8 @@ function exportCru(logger) {
         ], () => {})
         .then((answers) => {
             let tokenUes = answers.courses.split(/ , |, | ,|,/);
+            let cruBuilder = new CruBuilder();
+            cruBuilder.build(cruParser, tokenUes);
             logger.info("Vos UEs ont bien été exporté au format CRU (schedule.cru) à la racine de l'application")
         })
 }
