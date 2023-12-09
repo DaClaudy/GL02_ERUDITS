@@ -94,7 +94,7 @@ function switchActions(logger, answers) {
 }
 
 function generateICalendar(logger) {
-    
+    cruParser.schedule.createVisualisation();
 }
 
 function sortClassroomByHeadcount(logger) {
