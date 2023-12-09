@@ -41,8 +41,9 @@ CruBuilder.prototype.course = function (course){
     return result + "//\r\n";
 }
 
-CruBuilder.prototype.getFormatDate = function(){
-
+CruBuilder.prototype.getFormatDate = function(ts){
+    let date = new Date(ts);
+    return date.getHours() + ":" + date.getMinutes().toString().padStart(2, '0');
 }
 
 export default CruBuilder;
