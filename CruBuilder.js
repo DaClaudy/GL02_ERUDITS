@@ -22,10 +22,13 @@ CruBuilder.prototype.build = function (cruParser, ues) {
 
 CruBuilder.prototype.ue = function (ue) {
     let result = "+"+ ue.name +"\r\n";
-    return '';
+    for (let course of ue.courses){
+        result += this.course(course);
+    }
+    return result;
 }
 
-CruBuilder.prototype.course = function (){
+CruBuilder.prototype.course = function (course){
     return '';
 }
 
