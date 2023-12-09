@@ -112,8 +112,9 @@ Schedule.prototype.getFormatDate = function (ts) {
 }
 
 
-Schedule.prototype.getOccupationRates = function(classrooms, boundaryStart = 7, boundaryEnd = 21) {
-    let boundary = (boundaryEnd - boundaryStart) * 7;
+Schedule.prototype.getOccupationRates = function(classrooms, boundaryStart = 8, boundaryEnd = 20) {
+    let boundary = (boundaryEnd - boundaryStart) * 6;
+    console.log(boundary);
     let occupationByClassroom = {};
     for (let classroom of classrooms){
         let occupation = this.ues
@@ -122,9 +123,9 @@ Schedule.prototype.getOccupationRates = function(classrooms, boundaryStart = 7, 
                 return previousValue.concat(currentValue)
             }, [])
             .filter(value => value.classrooms === classroom)
-            .reduce((acc, value) => acc += (new Date(value.end)).getHours() - (new Date(value.start)).getHours())
+            .reduce((acc, value) => acc += (new Date(value.end)).getHours() - (new Date(value.start)).getHours(), 0)
         ;
-        occupationByClassroom[classroom] = occupation / boundary * 100;
+        occupationByClassroom[classroom] = Math.round(occupation / boundary * 10000)/100;
     }
     return occupationByClassroom;
 }

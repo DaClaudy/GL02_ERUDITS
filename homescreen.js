@@ -101,6 +101,11 @@ function occupationRates(logger) {
                 }
             }
             classrooms = new Set(classrooms);
+            logger.info('Les taux d\'occupation de ces salles sont : ')
+            let schedule = cruParser.schedule.getOccupationRates(classrooms);
+            for (let classroom in schedule){
+                logger.info(classroom + " : " + schedule[classroom] + "% des heures possibles");
+            }
         });
 }
 
