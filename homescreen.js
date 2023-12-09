@@ -8,7 +8,7 @@ import CruParser from "./CruParser.js";
 import fs from "fs";
 
 let user = new User("bubulle");
-const NB_OPTIONS = [1, 2, 4, 5];
+const NB_OPTIONS = [1, 2, 4, 5, 6];
 let cruParser = new CruParser();
 const DATA_DIR_NAME = 'SujetA_data';
 
@@ -44,7 +44,8 @@ function startProgram({logger}) {
         "1) Voir votre emploi du temps\n" +
         "2) Voir la liste des salles\n" +
         "4) Chercher les salles libre pour un créneau\n" +
-        "5) Taux d'occupation des salles")
+        "5) Taux d'occupation des salles" +
+        "6) Classer les salles par capacité d'accueil")
     inquirer
         .prompt([{name: "action", type: "number", message: "Entrez le chiffre de l'action choisie : "}])
         .then((answers) => switchActions(logger, answers))
@@ -81,6 +82,8 @@ function switchActions(logger, answers) {
             break;
         case 5:
             occupationRates(logger)
+            break;
+        case 6:
             break;
     }
 }
