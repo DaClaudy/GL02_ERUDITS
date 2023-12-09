@@ -84,7 +84,16 @@ function switchActions(logger, answers) {
             occupationRates(logger)
             break;
         case 6:
+            sortClassroomByHeadcount(logger)
             break;
+    }
+}
+
+function sortClassroomByHeadcount(logger) {
+    logger.info("Voici les classes classer par nombre d'effectif : ");
+    let classrooms = cruParser.schedule.sortClassroomByHeadcount();
+    for (let classroom in classrooms){
+        logger(classroom + " : " + classrooms[classroom]);
     }
 }
 

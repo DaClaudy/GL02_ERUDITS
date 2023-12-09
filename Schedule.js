@@ -130,4 +130,8 @@ Schedule.prototype.getOccupationRates = function(classrooms, boundaryStart = 8, 
     return occupationByClassroom;
 }
 
+Schedule.prototype.sortClassroomByHeadcount = function () {
+    
+}
+
 export default Schedule;
