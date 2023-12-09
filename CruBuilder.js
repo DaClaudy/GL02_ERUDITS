@@ -1,4 +1,5 @@
 import fs from "fs";
+import {Day} from "./Course.js";
 
 const CruBuilder = function() {
     this.name = '';
@@ -29,7 +30,13 @@ CruBuilder.prototype.ue = function (ue) {
 }
 
 CruBuilder.prototype.course = function (course){
-    return '';
+    let result = course.nbCourse + ",";
+    result += course.type + ",";
+    result += "P=" + course.headcount + ",";
+    result += "H=" + Object.keys(Day).find(v => Day[v] === course.day) + " ";
+    result += this.getFormatDate(course.start) + " : "
+    result += this.getFormatDate(course.end) + ",";
+    return result + "\r\n";
 }
 
 export default CruBuilder;
