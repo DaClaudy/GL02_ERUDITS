@@ -94,7 +94,16 @@ function switchActions(logger, answers) {
 }
 
 function generateICalendar(logger) {
-    cruParser.schedule.createVisualisation();
+    inquirer
+        .prompt([
+            {message: "Entrez une date de début (format: yyyymmdd)",
+                type:"string", name: "start"},
+            {message: "Entrez une date de fin (format: yyyymmdd)",
+                type:"string", name: "end"},
+        ])
+        .then((answers) => {
+            cruParser.schedule.createVisualisation([], answers.start, answers.end);
+        })
 }
 
 function sortClassroomByHeadcount(logger) {
