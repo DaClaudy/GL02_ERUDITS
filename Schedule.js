@@ -111,4 +111,22 @@ Schedule.prototype.getFormatDate = function (ts) {
     return date.getHours().toString().padStart(2, '0') + "h" +  date.getMinutes().toString().padStart(2, '0');
 }
 
+
+Schedule.prototype.getOccupationRates = function(classrooms, boundaryStart = 7, boundaryEnd = 21) {
+    let boundary = (boundaryEnd - boundaryStart) * 7;
+    let occupationByClassroom = {};
+    for (let classroom of classrooms){
+        let occupation = this.ues
+            .map(value => value.courses)
+            .reduce((previousValue, currentValue) => {
+                return previousValue.concat(currentValue)
+            }, [])
+            .filter(value => value.classrooms === classroom)
+            .reduce((acc, value) => acc += (new Date(value.end)).getHours() - (new Date(value.start)).getHours())
+        ;
+        occupationByClassroom[classroom] = occupation / boundary * 100;
+    }
+    return occupationByClassroom;
+}
+
 export default Schedule;
