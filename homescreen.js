@@ -44,7 +44,7 @@ function startProgram({logger}) {
         "1) Voir votre emploi du temps\n" +
         "2) Voir la liste des salles\n" +
         "4) Chercher les salles libre pour un créneau\n" +
-        "5) Taux d'occupation des salles" +
+        "5) Taux d'occupation des salles\n" +
         "6) Classer les salles par capacité d'accueil")
     inquirer
         .prompt([{name: "action", type: "number", message: "Entrez le chiffre de l'action choisie : "}])
@@ -92,8 +92,8 @@ function switchActions(logger, answers) {
 function sortClassroomByHeadcount(logger) {
     logger.info("Voici les classes classer par nombre d'effectif : ");
     let classrooms = cruParser.schedule.sortClassroomByHeadcount();
-    for (let classroom in classrooms){
-        logger(classroom + " : " + classrooms[classroom]);
+    for (let classroom of classrooms){
+        logger.info(classroom[0] + " : " + classroom[1]);
     }
 }
 
