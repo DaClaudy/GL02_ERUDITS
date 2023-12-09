@@ -7,12 +7,12 @@ const CruBuilder = function() {
 CruBuilder.prototype.build = function (cruParser, ues) {
     let time = Date.now();
     let result = "SCHEDULE.CRU - Emploi du temps\r\n";
-    result += "Emploi du temps avec différentes salles au format cru"
-    result += "+UVUV"
+    result += "Emploi du temps avec différentes salles au format cru\r\n"
+    result += "+UVUV\r\n";
     result += cruParser.schedule.exemple;
     let schedule = cruParser.schedule.ues.filter(v => ues.includes(this.name))
-    for (let ues of schedule) {
-        result += this.ue();
+    for (let ue of schedule) {
+        result += this.ue(ue);
     }
     time = (new Date(time.getTime())) - (new Date(Date.now())).getTime();
     result += "Page générée en :" + time +" sec";
@@ -20,7 +20,8 @@ CruBuilder.prototype.build = function (cruParser, ues) {
     return true;
 }
 
-CruBuilder.prototype.ue = function () {
+CruBuilder.prototype.ue = function (ue) {
+    let result = "+"+ ue.name +"\r\n";
     return '';
 }
 
