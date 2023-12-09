@@ -1,3 +1,5 @@
+import fs from "fs";
+
 const CruBuilder = function() {
     this.name = '';
 }
@@ -14,6 +16,7 @@ CruBuilder.prototype.build = function (cruParser, ues) {
     }
     time = (new Date(time.getTime())) - (new Date(Date.now())).getTime();
     result += "Page générée en :" + time +" sec";
+    fs.writeFileSync('schedule.cru', result);
     return true;
 }
 
