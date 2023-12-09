@@ -98,7 +98,14 @@ function switchActions(logger, answers) {
 }
 
 function exportCru(logger) {
-
+    inquirer
+        .prompt([
+            {message: "Entrez vos UEs séparer par une virgule : ", type: "string", name: "courses"},
+        ], () => {})
+        .then((answers) => {
+            let tokenUes = answers.courses.split(/ , |, | ,|,/);
+            logger.info("Vos UEs ont bien été exporté au format CRU (schedule.cru) à la racine de l'application")
+        })
 }
 
 function generateICalendar(logger) {
