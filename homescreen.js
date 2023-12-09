@@ -8,7 +8,7 @@ import CruParser from "./CruParser.js";
 import fs from "fs";
 
 let user = new User("bubulle");
-const NB_OPTIONS = [1, 2, 4];
+const NB_OPTIONS = [1, 2, 4, 5];
 let cruParser = new CruParser();
 const DATA_DIR_NAME = 'SujetA_data';
 
@@ -43,7 +43,8 @@ function startProgram({logger}) {
     logger.info("Bonjour, que voulez vous faire aujourd'hui ?\n" +
         "1) Voir votre emploi du temps\n" +
         "2) Voir la liste des salles\n" +
-        "4) Chercher les salles libre pour un créneau")
+        "4) Chercher les salles libre pour un créneau\n" +
+        "5) Taux d'occupation des salles")
     inquirer
         .prompt([{name: "action", type: "number", message: "Entrez le chiffre de l'action choisie : "}])
         .then((answers) => switchActions(logger, answers))
@@ -78,7 +79,29 @@ function switchActions(logger, answers) {
         case 4:
             searchFreeClassroom(logger);
             break;
+        case 5:
+            occupationRates(logger)
+            break;
     }
+}
+
+function occupationRates(logger) {
+    logger.info("Voici la liste des classes : ");
+    logger.info(Array.from(cruParser.schedule.classrooms).sort())
+    inquirer
+        .prompt([
+            {message: "Entrez les identifiant des classes séparés par des virgules pour voir leur taux d'occupation",
+                type:"string", name: "classrooms"},
+        ])
+        .then((answers) => {
+            let classrooms = answers.classrooms.split(/ , |, | ,|,/);
+            for (let classroom of classrooms) {
+                if (!cruParser.schedule.classrooms.has(classroom)){
+                    logger.error(classroom + " n'est pas une salle existant dans les données.");
+                }
+            }
+            classrooms = new Set(classrooms);
+        });
 }
 
 function searchFreeClassroom(logger) {
