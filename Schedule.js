@@ -131,7 +131,20 @@ Schedule.prototype.getOccupationRates = function(classrooms, boundaryStart = 8, 
 }
 
 Schedule.prototype.sortClassroomByHeadcount = function () {
-    
+    let headcountByClassroom = [];
+    for (let classroom of this.classrooms){
+        let headcount = Math.max(this.ues
+            .map(value => value.courses)
+            .reduce((previousValue, currentValue) => {
+                return previousValue.concat(currentValue)
+            }, [])
+            .filter(value => value.classrooms === classroom)
+            .map(value => value.headcount))
+        ;
+        console.log(headcount)
+        headcountByClassroom.push([classroom, headcount]);
+    }
+    return headcountByClassroom.sort((a,b) => a[1] - b[1]);
 }
 
 export default Schedule;
