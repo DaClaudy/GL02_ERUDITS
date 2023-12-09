@@ -28,8 +28,9 @@ ICalendarBuilder.prototype.generateLocation = function (location) {
     return "LOCATION:" + location + "\r\n";
 }
 
-ICalendarBuilder.prototype.generateFrequency = function (day) {
-    return this.ruleEvent + "BYDAY=" + ICalendarDay[day] + "\r\n"
+ICalendarBuilder.prototype.generateFrequency = function (day, end = false) {
+    let result = this.ruleEvent + "BYDAY=" + ICalendarDay[day];
+    return  end !== false ? result  + "\r\n" : result + ";UNTIL="+ end.replace("-", '') + "T000000\r\n";
 }
 
 ICalendarBuilder.prototype.generateUID = function () {
@@ -96,15 +97,14 @@ ICalendarBuilder.prototype.generateEventFromCourse = function (day, data, start 
     result += this.generateUID();
     result += this.generateStatus("CONFIRMED");
     result += this.generateBusy("TRANSPARENT");
-    result += this.generateFrequency(day);
+    result += this.generateFrequency(day, end);
     if (start !== false){
         result += this.generateDTStamp(start.replace('-', '') + "T000000")
     } else {
         result += this.generateDTStamp(this.generateDateFormat(new Date(Date.now())))
     }
-
     result += this.generateDTStart(this.generateDateFromCourse(day, data.start, start));
-    result += this.generateDTEnd(this.generateDateFromCourse(day, data.end, end));
+    result += this.generateDTEnd(this.generateDateFromCourse(day, data.end, start));
     result += this.generateLocation(data.classrooms);
     result += this.footerEvent;
     return result;
