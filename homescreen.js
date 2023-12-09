@@ -8,7 +8,7 @@ import CruParser from "./CruParser.js";
 import fs from "fs";
 
 let user = new User("bubulle");
-const NB_OPTIONS = [1, 2, 4, 5, 6, 8];
+const NB_OPTIONS = [1, 2, 4, 5, 6, 7, 8];
 let cruParser = new CruParser();
 const DATA_DIR_NAME = 'SujetA_data';
 
@@ -46,6 +46,7 @@ function startProgram({logger}) {
         "4) Chercher les salles libre pour un créneau\n" +
         "5) Taux d'occupation des salles\n" +
         "6) Classer les salles par capacité d'accueil\n" +
+        "7) Exporter l'emploi du temps au format cru\n" +
         "8) Générer l'emploi du temps pour l'agenda")
     inquirer
         .prompt([{name: "action", type: "number", message: "Entrez le chiffre de l'action choisie : "}])
@@ -87,10 +88,17 @@ function switchActions(logger, answers) {
         case 6:
             sortClassroomByHeadcount(logger)
             break;
+        case 7:
+            exportCru(logger)
+            break;
         case 8:
             generateICalendar(logger);
             break;
     }
+}
+
+function exportCru(logger) {
+
 }
 
 function generateICalendar(logger) {
