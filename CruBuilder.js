@@ -34,9 +34,15 @@ CruBuilder.prototype.course = function (course){
     result += course.type + ",";
     result += "P=" + course.headcount + ",";
     result += "H=" + Object.keys(Day).find(v => Day[v] === course.day) + " ";
-    result += this.getFormatDate(course.start) + " : "
+    result += this.getFormatDate(course.start) + "-"
     result += this.getFormatDate(course.end) + ",";
-    return result + "\r\n";
+    result += course.group + ",";
+    result += "S=" + course.classrooms + ",";
+    return result + "//\r\n";
+}
+
+CruBuilder.prototype.getFormatDate = function(){
+
 }
 
 export default CruBuilder;
